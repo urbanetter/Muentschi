@@ -1,7 +1,7 @@
 What
 ====
 
-Müntschi offers a conextual approach for displaying your view. Instead of just defining
+Muentschi offers a conextual approach for displaying your view. Instead of just defining
 a bunch of markup tags, it allows you to treat the objects on your view semantically and define how they look.
 
 As examples, Muentschi allows you to write
