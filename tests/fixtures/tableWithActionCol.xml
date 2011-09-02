@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context name="table" extends="simpletable">
+    <decorators for="row">
+        <contexts name="column" ids="name,action" />
+    </decorators>
+    
+    <decorators for="column#action">
+        <content format="id: {row.id}" />
+    </decorators>
+</context>

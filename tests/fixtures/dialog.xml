@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context name="dialog">
+    <decorators>
+        <div class="dialog" />
+        <context name="title" />
+        <context name="body" />
+    </decorators>
+    
+    <decorators for="title">
+        <div class="title" />
+        <content />
+    </decorators>
+
+    <decorators for="body">
+        <div class="body" />
+        <content />
+    </decorators>
+</context>

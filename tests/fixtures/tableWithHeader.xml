@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context name="table">
+    <decorators>
+        <table />
+        <context name="header" />
+        <context name="rows" />
+    </decorators>
+    
+    <decorators for="rows">
+        <tbody />
+        <contexts name="row" />
+    </decorators>
+    
+    <decorators for="row">
+        <tr />
+        <contexts name="column" />
+    </decorators>
+    
+    <decorators for="column">
+        <td/>
+        <content/>
+    </decorators>
+
+    <decorators for="header">
+        <thead />
+        <tr />
+        <contexts name="column" />
+    </decorators>
+    
+    <decorators for="header column">
+        <th/>
+        <content  format="{title}" />
+    </decorators>
+    
+</context>

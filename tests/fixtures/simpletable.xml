@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<context name="table">
+    <decorators for="table">
+        <table />
+        <contexts name="row" />
+    </decorators>
+    
+    <decorators for="row">
+        <tr />
+        <contexts name="column" />
+    </decorators>
+    
+    <decorators for="column">
+        <td />
+        <content />
+    </decorators>
+</context>
