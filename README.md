@@ -30,8 +30,8 @@ A more complete example to get you started:
     
     // setting the content and render the context
     $content = array(1 => array('foo', 'bar'), 2 => array('baz', 'bat'));
-    $context->setContent($content);
-    echo $context->render();
+    $table->setContent($content);
+    echo $table->render();
     $this->view->table = $table; // In a controller in Zend Framework
 
 Why
