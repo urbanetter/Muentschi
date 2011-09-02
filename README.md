@@ -5,11 +5,14 @@ Muentschi offers a conextual approach for displaying your view. Instead of just 
 a bunch of markup tags, it allows you to treat the objects on your view semantically and define how they look.
 
 As examples, Muentschi allows you to write
+
     $table->select('column:empty')->insteadOf('content')->add('text', 'This is an empty column!');
     $table->select('row:even')->add('tr', array('class' => 'even_row'));
+
 instead of nested if statements in your view template.
 
 A more complete example to get you started:
+
     // a table
     $table = new Muentschi('table');
     $table->add('htmlTag', 'table'); // surrounding html tag <table>
