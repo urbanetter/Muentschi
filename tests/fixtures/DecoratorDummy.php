@@ -1,5 +1,10 @@
 <?php
-class Muentschi_Decorator_Dummy extends Muentschi_Decorator
+
+namespace Muentschi\Decorator;
+
+use Muentschi\Decorator;
+
+class Dummy extends Decorator
 {
     protected $_defaultOption = 'name';
 

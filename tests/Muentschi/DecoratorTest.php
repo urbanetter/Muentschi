@@ -1,13 +1,13 @@
 <?php
-/**
- * Ray_Form test case.
- */
-class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
+
+namespace Muentschi;
+
+class DecoratorTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testOption()
     {
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->setOption('foo', 'bar');
         $actual = $decorator->getOption('foo');
         $this->assertSame('bar', $actual);
@@ -16,7 +16,7 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
     public function testOptions()
     {
         $options = array('foo' => 'bar');
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->setOptions($options);
         $actual = $decorator->getOption('foo');
         $this->assertSame('bar', $actual);
@@ -25,7 +25,7 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
     public function testOptionsAsConstructor()
     {
         $options = array('foo' => 'bar');
-        $decorator = new Muentschi_Decorator($options);
+        $decorator = new Decorator($options);
         $actual = $decorator->getOption('foo');
         $this->assertSame('bar', $actual);
     }
@@ -33,7 +33,7 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
     public function testRemoveOption()
     {
         $options = array('foo' => 'bar');
-        $decorator = new Muentschi_Decorator($options);
+        $decorator = new Decorator($options);
         $removed = $decorator->removeOption('foo');
         $actual = $decorator->getOption('foo');
         $this->assertSame('bar', $removed);
@@ -43,7 +43,7 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
     public function testClearOptions()
     {
         $options = array('foo' => 'bar');
-        $decorator = new Muentschi_Decorator($options);
+        $decorator = new Decorator($options);
         $decorator->clearOptions();
         $actual = $decorator->getOption('foo');
         $this->assertSame(null, $actual);
@@ -51,21 +51,21 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testOptionWithDefault()
     {
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $actual = $decorator->getOption('foo', 'default');
         $this->assertSame('default', $actual);
     }
 
     public function testMandatoryOptionFails()
     {
-        $decorator = new Muentschi_Decorator();
-        $this->setExpectedException('Muentschi_Exception');
+        $decorator = new Decorator();
+        $this->setExpectedException('Exception');
         $decorator->getMandatoryOption('foo');
     }
 
     public function testMandatoryOption()
     {
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->setOption('foo', 'bar');
         $actual = $decorator->getMandatoryOption('foo');
         $this->assertEquals('bar', $actual);
@@ -73,13 +73,13 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testHasOption()
     {
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $this->assertFalse($decorator->hasOption('foo'));
     }
 
     public function testGetOptions()
     {
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->placement = 'append';
         $decorator->foo = 'bar';
         $expected = array('foo' => 'bar');
@@ -88,7 +88,7 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testMagicGetter()
     {
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->setOption('foo', 'bar');
         $actual = $decorator->foo;
         $this->assertEquals('bar', $actual);
@@ -96,7 +96,7 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testMagicSetter()
     {
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->foo = 'bar';
         $actual = $decorator->getOption('foo');
         $this->assertEquals('bar', $actual);
@@ -104,40 +104,40 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testDefaultOption()
     {
-        $decorator = new Muentschi_Decorator('bar');
+        $decorator = new Decorator('bar');
         $actual = $decorator->getOption('default');
         $this->assertEquals('bar', $actual);
     }
 
     public function testGetName()
     {
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $this->assertSame('decorator', $decorator->getName());
 
     }
 
     public function testMerge()
     {
-        $toMerge = new Muentschi_Decorator(array('foo' => 'bar'));
-        $decorator = new Muentschi_Decorator();
+        $toMerge = new Decorator(array('foo' => 'bar'));
+        $decorator = new Decorator();
         $decorator->merge($toMerge);
         $this->assertSame('bar', $decorator->getOption('foo'));
     }
 
     public function testGettingEmptyOptionThrows()
     {
-        $decorator = new Muentschi_Decorator();
-        $this->setExpectedException('Muentschi_Exception', 'Option name is empty');
+        $decorator = new Decorator();
+        $this->setExpectedException('Exception', 'Option name is empty');
         $decorator->getOption('');
     }
 
     public function testOptionPlaceholder()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent('bar', 'baz');
         $context->setContent('test', 'one');
 
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->setOption('option', 'foo {bar} foo {test}');
         $decorator->context($context);
 
@@ -147,11 +147,11 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testOptionPlaceholderTricky()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent('bar', 'baz');
         $context->setContent('test', 'one');
 
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->setOption('option', 'foo {bar} foo and { {test} and }{wrong}');
         $decorator->context($context);
 
@@ -161,10 +161,10 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testOptionPlaceholderOnly()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent('bar', 'baz');
 
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->setOption('option', '{bar}');
         $decorator->context($context);
 
@@ -174,10 +174,10 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testDeepPlaceholder()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent('bar', array('foo' => 'baz'));
 
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->context($context);
         $decorator->setOption('option', '{bar.foo}');
 
@@ -187,10 +187,10 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testMixedPlaceholder()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent('bar', array('foo' => 'baz'));
 
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->context($context);
         $decorator->setOption('option', 'foo: {bar.foo}');
 
@@ -200,16 +200,16 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testSpecialPlaceholder()
     {
-        $context = new Muentschi_Context('name', 'id');
+        $context = new Context('name', 'id');
 
-        $decorator = new Muentschi_Decorator();
+        $decorator = new Decorator();
         $decorator->context($context);
 
     }
 
     public function testPlacementReplace()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('content', array('name' => 'one'));
         $context->add('content', array('name' => 'two'));
 
@@ -223,7 +223,7 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testPlacementAppend()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('content', array('name' => 'one', 'placement' => 'append'));
         $context->add('content', array('name' => 'two'));
 
@@ -237,7 +237,7 @@ class Muentschi_DecoratorTest extends PHPUnit_Framework_TestCase
 
     public function testPlacementPrepend()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('content', array('name' => 'one', 'placement' => 'prepend'));
         $context->add('content', array('name' => 'two'));
 

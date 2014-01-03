@@ -1,19 +1,12 @@
 <?php
 
-require_once('Selector.php');
-require_once('Decorator.php');
-require_once('Decorator/Content.php');
-require_once('Decorator/Context.php');
-require_once('Decorator/Contexts.php');
-require_once('Decorator/HtmlTag.php');
-require_once('Decorator/Text.php');
-require_once('Exception.php');
+namespace Muentschi;
 
 /**
  * Represents a context
  * @author Urban Etter
  */
-class Muentschi_Context
+class Context
 {
 
     /**
@@ -63,6 +56,7 @@ class Muentschi_Context
      * Create an context instance
      *
      * @param string $name name of the context instance
+     * @param string $id id of the context
      */
     public function __construct($name = 'main', $id = null)
     {
@@ -80,7 +74,7 @@ class Muentschi_Context
      * Get the name of context: name()
      * Set the name of context: name($newName)
      * @param string $name Set this parameter if you want to set the name
-     * @return string|Muentschi_Context
+     * @return string|Context
      */
     public function name($name = null)
     {
@@ -95,8 +89,8 @@ class Muentschi_Context
     /**
      * Get the id of context: id()
      * Set the id of context: id($newId)
-     * @param string $name Set this parameter if you want to set the id
-     * @return string|Muentschi_Context
+     * @param string $id Set this parameter if you want to set the id
+     * @return string|Context
      */
     public function id($id = null)
     {
@@ -110,9 +104,9 @@ class Muentschi_Context
 
     /**
      * Sets the content
-     * @param string|array $content content itself or name of the content
-     * @param array $value if a name is given value is the content
-     * @return Muentschi_Context
+     * @param string|array $name content itself or name of the content
+     * @param array $content if a name is given value is the content
+     * @return Context
      */
     public function setContent($name, $content = null)
     {
@@ -161,12 +155,12 @@ class Muentschi_Context
     /**
      * Returns a selector for $what
      * @param string $what what to select
-     * @return Muentschi_Selector
+     * @return Selector
      */
     public function select($what)
     {
         if (!isset($this->_selectors[$what])) {
-            $this->_selectors[$what] = new Muentschi_Selector();
+            $this->_selectors[$what] = new Selector();
         }
         return 	$this->_selectors[$what];
     }
@@ -174,6 +168,7 @@ class Muentschi_Context
     /**
      * Applies the selectors and renders the context
      * @param mixed $content optional content for rendering
+     * @throws Exception
      * @return string the rendered context
      */
     public function render($content = null)
@@ -199,7 +194,7 @@ class Muentschi_Context
 
         // throw exception if there is no decorator applying
         if (count($decorators) == 0) {
-            throw new Muentschi_Exception('No decorator applies for ' . $this->name());
+            throw new Exception('No decorator applies for ' . $this->name());
         }
 
         // decorators are upside down now
@@ -323,11 +318,11 @@ class Muentschi_Context
      * Creates a sub context of the given name
      * @param string $name the context name
      * @param string $id the id of the new context
-     * @return Muentschi_Context The created context
+     * @return Context The created context
      */
     public function createContext($name, $id = null)
     {
-        $context = new Muentschi_Context($name, $id);
+        $context = new Context($name, $id);
         $id = $context->id();
 
         // add selectors
@@ -361,7 +356,7 @@ class Muentschi_Context
     /**
      * Adds a Tag to the context
      * @param string $tag The tag to add
-     * @return Muentschi_Context Fluent interface
+     * @return Context Fluent interface
      */
     public function addTag($tag)
     {
@@ -372,7 +367,7 @@ class Muentschi_Context
     /**
      * Removes a Tag
      * @param string $tag Tag to remove
-     * @return Muentschi_Context Fluent interface
+     * @return Context Fluent interface
      */
     public function removeTag($tag)
     {
@@ -402,10 +397,10 @@ class Muentschi_Context
     }
     
     /**
-     * Adds a compted tag
+     * Adds a computed tag
      *
      * @param string $name 
-     * @return Muentschi_Context Fluent interface
+     * @return Context Fluent interface
      */
     public function addComputedTag($name)
     {
@@ -426,7 +421,7 @@ class Muentschi_Context
     /**
      * Removes a computed tag
      * @param string $tag Tag to remove
-     * @return Muentschi_Context Fluent interface
+     * @return Context Fluent interface
      */
     public function removeComputedTag($tag)
     {
@@ -453,10 +448,11 @@ class Muentschi_Context
     {
     	return $this->_name;
     }
-    
+
     /**
      * Sets the name of the context
-     * @param string $name Name of the context 
+     * @param string $name Name of the context
+     * @return $this
      */
     public function setName($name)
     {
@@ -470,7 +466,7 @@ class Muentschi_Context
      * Set: ids($name, $ids)
      * @param string $name Set this parameter if you want to set the id
      * @param string|array Array of ids or comma separated list  of ids
-     * @return string|Muentschi_Context
+     * @return string|Context
      */
     public function ids($name, $ids = null)
     {
@@ -491,10 +487,11 @@ class Muentschi_Context
     {
     	self::$_log = array();
     }
-    
+
     /**
      * Returns the log messages
      * @param string $interest Specify render, selector or decorator if you're only intersted in this topic
+     * @return array
      */
     static public function getLog($interest = null) {
     	$return = self::$_log;
@@ -507,12 +504,12 @@ class Muentschi_Context
     /**
      * Creates an instance with decorators specified in a XML file
      * @param string $path The path to the file
-     * @throws Muentschi_Exception when the given file is not readable
+     * @throws Exception when the given file is not readable
      */
     static public function fromXML($path)
     {
     	if (!is_file($path)) {
-    		throw new Muentschi_Exception('File ' . $path . ' not found');
+    		throw new Exception('File ' . $path . ' not found');
     	}
     	
     	$xml = simplexml_load_file($path);
@@ -526,12 +523,12 @@ class Muentschi_Context
     	if ($extends) {
     		$file = dirname($path) . '/' . $extends . '.xml';
 	        if (!is_file($file)) {
-	            throw new Muentschi_Exception('Cannot extend file ' . $file);
+	            throw new Exception('Cannot extend file ' . $file);
 	        }
-	        $result = Muentschi_Context::fromXML($file);
+	        $result = Context::fromXML($file);
 	        $result->setName($name);
     	} else {
-    	   $result = new Muentschi_Context($name);
+    	   $result = new Context($name);
     	}
     	
     	foreach ($xml->children() as $child) {

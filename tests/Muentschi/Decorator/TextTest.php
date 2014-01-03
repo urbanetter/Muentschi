@@ -1,12 +1,12 @@
 <?php
-/**
- * Muentschi_Context test case.
- */
-class Muentschi_Decorator_TextTest extends PHPUnit_Framework_TestCase
+
+namespace Muentschi\Decorator;
+
+class TextTest extends \PHPUnit_Framework_TestCase
 {
     public function testSimple()
     {
-        $decorator = new Muentschi_Decorator_Text('foo');
+        $decorator = new Text('foo');
         $actual = $decorator->render();
         $expected = 'foo';
 
@@ -15,7 +15,7 @@ class Muentschi_Decorator_TextTest extends PHPUnit_Framework_TestCase
 
     public function testPlacementPrepend()
     {
-        $decorator = new Muentschi_Decorator_Text('foo');
+        $decorator = new Text('foo');
         $decorator->setOption('placement', 'prepend');
         $expected = 'foobar';
         $actual = $decorator->render('bar');
@@ -24,7 +24,7 @@ class Muentschi_Decorator_TextTest extends PHPUnit_Framework_TestCase
 
     public function testPlacementAppend()
     {
-        $decorator = new Muentschi_Decorator_Text('foo');
+        $decorator = new Text('foo');
         $decorator->setOption('placement', 'append');
         $expected = 'barfoo';
         $actual = $decorator->render('bar');

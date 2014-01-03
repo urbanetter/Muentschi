@@ -1,9 +1,14 @@
 <?php
+
+namespace Muentschi\Decorator;
+
+use Muentschi\Decorator;
+
 /**
  * Creates a new context
  * @author Urban Etter
  */
-class Muentschi_Decorator_Context extends Muentschi_Decorator
+class Context extends Decorator
 {
     /**
      * @var string The default option

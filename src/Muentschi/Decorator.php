@@ -1,12 +1,12 @@
 <?php
 
-include_once('Exception.php');
+namespace Muentschi;
 
 /**
  * Decorates the context
  * @author Urban Etter
  */
-class Muentschi_Decorator
+class Decorator
 {
 
     /**
@@ -23,7 +23,7 @@ class Muentschi_Decorator
 
     /**
      * the context which is decorated
-     * @var Muentschi_Context
+     * @var Context
      */
     protected $_context;
 
@@ -45,12 +45,12 @@ class Muentschi_Decorator
     }
 
     /**
-     * This function is called by the costructor to init options.
+     * This function is called by the constructor to init options.
      * Overload this function to initialize options
      */
     protected function _init()
     {
-        // Intenionally left blank override this mehtod to set default options
+        // Intenionally left blank override this method to set default options
     }
 
     /**
@@ -58,12 +58,13 @@ class Muentschi_Decorator
      *
      * @param string $name
      * @param string $default is returned if the option is not set
+     * @throws Exception
      * @return mixed
      */
     public function getOption($name, $default = null)
     {
         if (!$name) {
-            throw new Muentschi_Exception('Option name is empty');
+            throw new Exception('Option name is empty');
         }
         if (isset($this->_options[$name])) {
             $option = $this->_options[$name];
@@ -82,7 +83,7 @@ class Muentschi_Decorator
     private function _replacePlaceholders($string)
     {
         // when there is no context we are not rendering yet, so no need to replace placeholders
-        if (!$this->_context instanceof Muentschi_Context) {
+        if (!$this->_context instanceof Context) {
             return $string;
         }
         $string = preg_replace_callback('/{([^{}\r\n]*)}/', array($this, '_replaceContent'), $string);
@@ -106,13 +107,14 @@ class Muentschi_Decorator
      *
      * @param string $name
      * @param string $error message for display when option is not set
+     * @throws Exception
      * @return mixed
      */
     public function getMandatoryOption($name, $error = null)
     {
         if (!isset($this->_options[$name])) {
             $msg = ($error) ? $error : get_class($this) . ' needs option ' .$name;
-            throw new Muentschi_Exception($msg);
+            throw new Exception($msg);
         }
         return $this->getOption($name);
     }
@@ -132,7 +134,7 @@ class Muentschi_Decorator
     /**
      * Sets the default option
      * @param mixed $value Value to set as default option
-     * @return Muentschi_Decorator Fluent interface
+     * @return Decorator Fluent interface
      */
     public function setDefaultOption($value)
     {
@@ -144,7 +146,7 @@ class Muentschi_Decorator
      * Sets the options at once
      *
      * @param array $options
-     * @return Muentschi_Decorator Fluent interface
+     * @return Decorator Fluent interface
      */
     public function setOptions($options)
     {
@@ -157,6 +159,7 @@ class Muentschi_Decorator
      *
      * @param string $name
      * @param string $default is returned if the option is not set
+     * @return mixed
      */
     public function removeOption($name, $default = null)
     {
@@ -205,9 +208,9 @@ class Muentschi_Decorator
     /**
      * Sets the context of this decorator
      *
-     * @param Muentschi_Context $context
+     * @param Context $context
      */
-    public function context(Muentschi_Context $context = null)
+    public function context(Context $context = null)
     {
         if ($context == null) {
             return $this->_context;
@@ -224,8 +227,8 @@ class Muentschi_Decorator
     public function getName()
     {
         $className = get_class($this);
-        $name = substr(strrchr($className, '_'), 1);
-        $name = strtolower(substr($name, 0, 1)) . substr($name, 1);
+        $parts = array_slice(explode("\\", $className), -1);
+        $name = strtolower($parts[0]);
         return $name;
     }
 
@@ -267,6 +270,7 @@ class Muentschi_Decorator
     /**
      * Magic setter, user for setting options
      * @param string $name
+     * @param $value
      * @return mixed
      */
     public function __set($name, $value)
@@ -278,19 +282,20 @@ class Muentschi_Decorator
      * Render the decorator. Subclasses should override this
      *
      * @param string $output
+     * @throws Exception
      * @return string
      */
     public function render($output = '')
     {
         $msg = get_class($this) . ': render($output = "") function not implemeted';
-        throw new Muentschi_Exception($msg);
+        throw new Exception($msg);
     }
 
     /**
      * Merges this decorator with another one
-     * @param Muentschi_Decorator $decorator The decorator to merge
+     * @param Decorator $decorator The decorator to merge
      */
-    public function merge(Muentschi_Decorator $decorator)
+    public function merge(Decorator $decorator)
     {
         $this->_options = array_merge($this->_options, $decorator->_options);
     }

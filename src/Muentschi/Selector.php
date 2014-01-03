@@ -1,9 +1,12 @@
 <?php
+
+namespace Muentschi;
+
 /**
  * Represents settings (decorators, content, tags) for a context
  * @author Urban Etter
  */
-class Muentschi_Selector
+class Selector
 {
     /**
      * @var array The decorators for this selector
@@ -37,16 +40,16 @@ class Muentschi_Selector
 
     /**
      * Add decorator for this selector
-     * @param Muentschi_Decorator|string $decorator Instance or class name of decorator
+     * @param Decorator|string $decorator Instance or class name of decorator
      * @param mixed $options Options for the decorator
-     * @return Muentschi_Selector
+     * @return Selector
      */
     public function add($decorator, $options = null)
     {
         if (is_string($decorator)) {
-            $class = 'Muentschi_Decorator_' . ucfirst($decorator);
+            $class = 'Muentschi\\Decorator\\' . ucfirst($decorator);
             if (!class_exists($class)) {
-                $class = 'Muentschi_Decorator_' . ucfirst(self::$_defaultDecorator);
+                $class = 'Muentschi\\Decorator\\' . ucfirst(self::$_defaultDecorator);
                 $defaultOption = $decorator;
                 $decorator = new $class($options);
                 $decorator->setDefaultOption($defaultOption);
@@ -54,7 +57,7 @@ class Muentschi_Selector
                 $decorator = new $class($options);
             }
         }
-        if ($decorator instanceof Muentschi_Decorator) {
+        if ($decorator instanceof Decorator) {
             $name = $decorator->getName();
             $this->decorators[$name] = $decorator;
         }
@@ -63,9 +66,10 @@ class Muentschi_Selector
 
     /**
      * Sets the content
+     * @param $name
      * @param string|array $content content itself or name of the content
-     * @param array $value if a name is given value is the content
-     * @return Muentschi_Selector
+     * @internal param array $value if a name is given value is the content
+     * @return Selector
      */
     public function setContent($name, $content)
     {
@@ -86,15 +90,15 @@ class Muentschi_Selector
      * Sets a strategy for applying selector
      * @param string $function
      * @param array $params
-     * @return Muentschi_Selector
-     * @throws Muentschi_Exception When there is no function implementing the strategy
+     * @return Selector
+     * @throws Exception When there is no function implementing the strategy
      */
     public function __call($function, $params)
     {
         $this->_strategy = $function;
         $function = '_' . $function;
         if (!method_exists($this, $function)) {
-            throw new Muentschi_Exception('Unknown function: ' . substr($function, 1));
+            throw new Exception('Unknown function: ' . substr($function, 1));
         }
         if (count($params) > 0) {
             $this->_strategyParam = array_shift($params);
@@ -107,8 +111,8 @@ class Muentschi_Selector
 
     /**
      * Applies the decorators according to the set strategy
-     * @param unknown_type $decorators
-     * @return unknown_type
+     * @param  $decorators
+     * @return mixed
      */
     public function apply($decorators)
     {
@@ -127,7 +131,7 @@ class Muentschi_Selector
     /**
      * Adds a Tag to the selector
      * @param string $tag The tag to add
-     * @return Muentschi_Context Fluent interface
+     * @return Selector Fluent interface
      */
     public function addTag($tag)
     {
@@ -138,7 +142,7 @@ class Muentschi_Selector
     /**
      * Removes a tag
      * @param string $tag Tag to remove
-     * @return Muentschi_Context Fluent interface
+     * @return Selector Fluent interface
      */
     public function removeTag($tag)
     {
@@ -192,12 +196,13 @@ class Muentschi_Selector
     /**
      * Implements the insteadOf strategy
      * @param array $decorators the decorators to merge
+     * @throws Exception
      * @return array merged decorators
      */
     protected function _insteadOf($decorators)
     {
         if (!$this->_strategyParam) {
-            throw new Muentschi_Exception('Strategy insteadOf needs param!');
+            throw new Exception('Strategy insteadOf needs param!');
         }
         if (!isset($decorators[$this->_strategyParam])) {
             return $decorators + $this->decorators;

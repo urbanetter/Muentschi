@@ -1,13 +1,15 @@
 <?php
-/**
- * Muentschi_Context test case.
- */
-class Muentschi_Decorator_ContentTest extends PHPUnit_Framework_TestCase
+
+namespace Muentschi\Decorator;
+
+use Muentschi\Context;
+
+class ContentTest extends \PHPUnit_Framework_TestCase
 {
     public function testSimple()
     {
-        $decorator = new Muentschi_Decorator_Content();
-        $context = new Muentschi_Context();
+        $decorator = new Content();
+        $context = new Context();
         $context->setContent('foo');
         $decorator->context($context);
         $actual = $decorator->render();
@@ -18,8 +20,8 @@ class Muentschi_Decorator_ContentTest extends PHPUnit_Framework_TestCase
 
     public function testPlacementPrepend()
     {
-        $decorator = new Muentschi_Decorator_Content();
-        $context = new Muentschi_Context();
+        $decorator = new Content();
+        $context = new Context();
         $context->setContent('foo');
         $decorator->context($context);
         $decorator->setOption('placement', 'prepend');
@@ -30,8 +32,8 @@ class Muentschi_Decorator_ContentTest extends PHPUnit_Framework_TestCase
 
     public function testPlacementAppend()
     {
-        $decorator = new Muentschi_Decorator_Content();
-        $context = new Muentschi_Context();
+        $decorator = new Content();
+        $context = new Context();
         $context->setContent('foo');
         $decorator->context($context);
         $decorator->setOption('placement', 'append');
@@ -42,7 +44,7 @@ class Muentschi_Decorator_ContentTest extends PHPUnit_Framework_TestCase
 
     public function testFormat()
     {
-        $decorator = new Muentschi_Decorator_Content('foo');
+        $decorator = new Content('foo');
         $expected = 'foo';
         $actual = $decorator->render();
         $this->assertEquals($expected, $actual);
@@ -50,8 +52,8 @@ class Muentschi_Decorator_ContentTest extends PHPUnit_Framework_TestCase
 
     public function testFormatPlaceholders()
     {
-        $decorator = new Muentschi_Decorator_Content('{foo}');
-        $context = new Muentschi_Context('foo');
+        $decorator = new Content('{foo}');
+        $context = new Context('foo');
         $context->setContent('foo', 'bar');
 
         $decorator->context($context);
@@ -63,8 +65,8 @@ class Muentschi_Decorator_ContentTest extends PHPUnit_Framework_TestCase
 
     public function testNoContentRendersEmpty()
     {
-        $decorator = new Muentschi_Decorator_Content('{baz}');
-        $context = new Muentschi_Context();
+        $decorator = new Content('{baz}');
+        $context = new Context();
         $context->setContent('foo', 'bar');
         $decorator->context($context);
 
@@ -75,8 +77,8 @@ class Muentschi_Decorator_ContentTest extends PHPUnit_Framework_TestCase
 
     public function testIdDisplay()
     {
-        $decorator = new Muentschi_Decorator_Content(array('id' => true));
-        $context = new Muentschi_Context('name', 'id');
+        $decorator = new Content(array('id' => true));
+        $context = new Context('name', 'id');
         $decorator->context($context);
 
         $expected = 'id';

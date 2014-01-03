@@ -1,0 +1,15 @@
+{
+    "name": "urbanetter/muentschi",
+    "description": "A mini language for decorating array structures with HTML tags",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Urban Etter",
+            "email": "uetter@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {"Muentschi\\": "src/"}
+    }
+}

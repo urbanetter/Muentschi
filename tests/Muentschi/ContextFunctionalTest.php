@@ -1,12 +1,15 @@
 <?php
+
+namespace Muentschi;
+
 /**
- * Muentschi_Context test case.
+ * Muentschi\Context test case.
  */
-class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
+class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
 {
     public function testSimple()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('h1');
         $context->add('content');
 
@@ -20,7 +23,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testDialog()
     {
-        $context = new Muentschi_Context('dialog');
+        $context = new Context('dialog');
         $context->add('div', array('class' => 'dialog'));
         $context->add('context', 'title');
         $context->add('context', 'body');
@@ -41,7 +44,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testSimpleTable()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('contexts', 'row');
 
@@ -64,7 +67,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testTableWithActionCol()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('contexts', 'row');
 
@@ -89,7 +92,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testTableWithHeaderRow()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('context', 'header');
         $context->add('context', 'rows');
@@ -121,7 +124,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testTableHilightRow()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('contexts', 'row');
 
@@ -145,7 +148,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testTableWithSortedColumn()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('contexts', 'row');
 
@@ -170,7 +173,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
 
     public function testTableWithSortableColumn()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('context', 'header');
         $context->add('context', 'rows');
@@ -204,7 +207,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
     
     public function testEmptyTable()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('contexts', 'row');
 
@@ -227,7 +230,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
     
     public function testEmptyColumn()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('contexts', 'row');
 
@@ -251,7 +254,7 @@ class Muentschi_ContextFunctionalTest extends PHPUnit_Framework_TestCase
     
     public function testTableWithIds()
     {
-        $context = new Muentschi_Context('table');
+        $context = new Context('table');
         $context->add('table');
         $context->add('contexts', 'row');
 

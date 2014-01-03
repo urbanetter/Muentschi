@@ -1,13 +1,19 @@
 <?php
+
+namespace Muentschi;
+
+use Muentschi\Decorator\Dummy;
+use Muentschi\Decorator\HtmlTag;
+
 /**
- * Muentschi_Selector test case.
+ * Muentschi\Selector test case.
  */
-class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
+class SelectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testDecorateWithClass()
     {
-        $selector = new Muentschi_Selector();
-        $decorator = new Muentschi_Decorator_Dummy();
+        $selector = new Selector();
+        $decorator = new Dummy();
         $selector->add($decorator);
         $actual = $selector->decorators['dummy'];
         $this->assertSame($decorator, $actual);
@@ -15,7 +21,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testDecorateWithName()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $selector->add('dummy');
         $actual = $selector->decorators['dummy']->getName();;
         $this->assertEquals('dummy', $actual);
@@ -23,7 +29,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testDecorateWithDefaultOption()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $selector->add('dummy', 'default');
         $actual = $selector->decorators['default']->getOption('name');
         $this->assertEquals('default', $actual);
@@ -31,7 +37,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testDecorateWithOptions()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $selector->add('dummy', array('default' => 'default'));
         $actual = $selector->decorators['dummy']->getOption('default');
         $this->assertEquals('default', $actual);
@@ -39,7 +45,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testSetMergeFunction()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $this->assertEquals('merge', $selector->getStrategy());
         $return = $selector->merge();
         $this->assertEquals('merge', $selector->getStrategy());
@@ -48,8 +54,8 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testMergeExtending()
     {
-        $selector = new Muentschi_Selector();
-        $dummyDecorator = new Muentschi_Decorator_Dummy();
+        $selector = new Selector();
+        $dummyDecorator = new Dummy();
         $in = array('one' => 'foo');
 
         $selector->add($dummyDecorator);
@@ -59,8 +65,8 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testMergeDecorator()
     {
-        $selector = new Muentschi_Selector();
-        $dummyDecorator = new Muentschi_Decorator_Dummy(array('bar' => 'foo'));
+        $selector = new Selector();
+        $dummyDecorator = new Dummy(array('bar' => 'foo'));
         $in = array('dummy' => $dummyDecorator);
 
         $selector->add('dummy');
@@ -72,8 +78,8 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testDefaultDecorator()
     {
-        $selector = new Muentschi_Selector();
-        $expected = new Muentschi_Decorator_HtmlTag('h1');
+        $selector = new Selector();
+        $expected = new HtmlTag('h1');
 
         $selector->add('h1');
         $actual = $selector->decorators['h1'];
@@ -83,7 +89,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testSetReplaceFunction()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $return = $selector->replace();
         $this->assertEquals('replace', $selector->getStrategy());
         $this->assertEquals($selector, $return);
@@ -91,8 +97,8 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testReplace()
     {
-        $selector = new Muentschi_Selector();
-        $dummyDecorator = new Muentschi_Decorator_Dummy();
+        $selector = new Selector();
+        $dummyDecorator = new Dummy();
         $in = array('one' => 'foo');
 
         $selector->add($dummyDecorator);
@@ -103,7 +109,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testSetInsteadOfFunction()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $return = $selector->insteadOf('foo');
         $this->assertEquals('insteadOf', $selector->getStrategy());
         $this->assertEquals($selector, $return);
@@ -111,7 +117,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testInsteadOf()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
@@ -122,7 +128,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testInsteadOfWithWrongNameGetsAppended()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
@@ -133,19 +139,19 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testInsteadOfWithoutParamThrows()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
         $selector->insteadOf();
 
-        $this->setExpectedException('Muentschi_Exception', 'Strategy insteadOf needs param!');
+        $this->setExpectedException('Exception', 'Strategy insteadOf needs param!');
         $selector->apply($in);
     }
 
     public function testSetAfterFunction()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $return = $selector->after('foo');
         $this->assertEquals('after', $selector->getStrategy());
         $this->assertEquals($selector, $return);
@@ -153,7 +159,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testAfter()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
@@ -164,7 +170,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWithWrongNameGetsAppended()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
@@ -175,7 +181,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testAfterWithoutParamAppends()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
@@ -186,7 +192,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testSetBeforeFunction()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $return = $selector->before('foo');
         $this->assertEquals('before', $selector->getStrategy());
         $this->assertEquals($selector, $return);
@@ -194,7 +200,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testBefore()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
@@ -205,7 +211,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testBeforeWithWrongNameGetsPrepended()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
@@ -216,7 +222,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testBeforeWithoutParamPrepends()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->decorators = array('new' => 'bar');
@@ -227,7 +233,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testSetRemoveFunction()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $return = $selector->remove('foo');
         $this->assertEquals('remove', $selector->getStrategy());
         $this->assertEquals($selector, $return);
@@ -235,7 +241,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testRemove()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->remove('two');
@@ -245,7 +251,7 @@ class Muentschi_SelectorTest extends PHPUnit_Framework_TestCase
 
     public function testRemoveWithWrongParameterDoesNotChangeAnything()
     {
-        $selector = new Muentschi_Selector();
+        $selector = new Selector();
         $in = array('one' => 'foo', 'two' => 'foo', 'three' => 'foo');
 
         $selector->remove('foo');

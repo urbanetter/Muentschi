@@ -1,12 +1,16 @@
 <?php
+
+namespace Muentschi;
+use Muentschi\Decorator\Dummy;
+
 /**
- * Muentschi_Context test case.
+ * Muentschi\Selector test case.
  */
-class Muentschi_ContextSelectorTest extends PHPUnit_Framework_TestCase
+class ContextSelectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testContextName()
     {
-        $context = new Muentschi_Context('foo');
+        $context = new Context('foo');
         $this->assertTrue($context->applies('foo'));
         $this->assertFalse($context->applies('bar'));
         $this->assertFalse($context->applies(''));
@@ -14,7 +18,7 @@ class Muentschi_ContextSelectorTest extends PHPUnit_Framework_TestCase
 
     public function testContextId()
     {
-        $context = new Muentschi_Context('foo', 'bar');
+        $context = new Context('foo', 'bar');
         $this->assertTrue($context->applies('foo'));
         $this->assertFalse($context->applies('bar'));
         $this->assertFalse($context->applies('foo#baz'));
@@ -25,12 +29,12 @@ class Muentschi_ContextSelectorTest extends PHPUnit_Framework_TestCase
 
     public function testNestedSelectors()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->select('foo bar')->add('dummy');
         $sub = $context->createContext('foo');
 
         $actual = $sub->select('bar')->decorators['dummy'];
-        $expected = new Muentschi_Decorator_Dummy();
+        $expected = new Dummy();
 
         $this->assertEquals($expected, $actual);
 
@@ -38,7 +42,7 @@ class Muentschi_ContextSelectorTest extends PHPUnit_Framework_TestCase
 
     public function testContentSelectors()
     {
-        $context = new Muentschi_Context('baz');
+        $context = new Context('baz');
         $context->setContent(array('foo' => 'bar'));
 
         $this->assertTrue($context->applies('baz[foo=bar]'));
@@ -59,7 +63,7 @@ class Muentschi_ContextSelectorTest extends PHPUnit_Framework_TestCase
 
     public function testMultiContentSelectors()
     {
-        $context = new Muentschi_Context('baz');
+        $context = new Context('baz');
         $context->setContent(array('foo' => 'bar', 'one' => 'two'));
 
         $this->assertTrue($context->applies('baz[foo=bar][one=two]'));
@@ -69,7 +73,7 @@ class Muentschi_ContextSelectorTest extends PHPUnit_Framework_TestCase
 
     public function testTagSelectors()
     {
-        $context = new Muentschi_Context('baz');
+        $context = new Context('baz');
 
         $context->addTag('foo');
         $this->assertTrue($context->applies('baz.foo'));
@@ -85,7 +89,7 @@ class Muentschi_ContextSelectorTest extends PHPUnit_Framework_TestCase
 
     public function testComputedTagSelectors()
     {
-        $context = new Muentschi_Context('baz');
+        $context = new Context('baz');
 
         $context->addComputedTag('foo');
         $this->assertTrue($context->applies('baz:foo'));

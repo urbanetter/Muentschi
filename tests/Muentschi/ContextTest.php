@@ -1,20 +1,22 @@
 <?php
+
+namespace Muentschi;
 /**
- * Muentschi_Context test case.
+ * Muentschi\Context test case.
  */
-class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
+class ContextTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testConstructor()
     {
-        $context = new Muentschi_Context('name');
+        $context = new Context('name');
         $this->assertSame('name', $context->name());
     }
 
 
     public function testNameSetter()
     {
-        $context = new Muentschi_Context('name');
+        $context = new Context('name');
         $this->assertEquals('name', $context->name());
         $context->name('new name');
         $this->assertEquals('new name', $context->name());
@@ -22,7 +24,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testContent()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent('foo');
 
         $actual = $context->getContent();
@@ -31,7 +33,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testContentWithArray()
     {
-        $context = new Muentschi_Context('main');
+        $context = new Context('main');
         $context->setContent(array('foo' => 'bar'));
 
         $actual = $context->getContent('main.foo');
@@ -40,7 +42,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testContentWithStrings()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent('foo', 'bar');
 
         $actual = $context->getContent('foo');
@@ -49,28 +51,28 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testForReturnsSelector()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $selector = $context->select('foo');
-        $this->assertTrue($selector instanceof Muentschi_Selector);
+        $this->assertTrue($selector instanceof Selector);
     }
 
     public function testDecorateReturnsContext()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $return = $context->add('dummy');
-        $this->assertTrue($return instanceof Muentschi_Context);
+        $this->assertTrue($return instanceof Context);
     }
 
     public function testRenderWithoutDecoratorThrowsException()
     {
-        $context = new Muentschi_Context();
-        $this->setExpectedException('Muentschi_Exception');
+        $context = new Context();
+        $this->setExpectedException('Exception');
         $context->render('foo');
     }
 
     public function testRender()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->select('main')->add('dummy');
 
         $actual = $context->render();
@@ -79,7 +81,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testRenderWithReplace()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('dummy', 'outer');
         $context->add('dummy', 'inner');
 
@@ -90,7 +92,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testRenderWithAppend()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('dummy', array('name' => 'outer', 'placement' => 'append'));
         $context->add('dummy', 'inner');
 
@@ -101,7 +103,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testRenderWithPrepend()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('dummy', array('name' => 'outer', 'placement' => 'prepend'));
         $context->add('dummy', 'inner');
 
@@ -112,10 +114,10 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testCreateContext()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent(array('one' => 1, 'two' => 2));
 
-        $expected = new Muentschi_Context('one');
+        $expected = new Context('one');
         $expected->setContent('main', array('one' => 1, 'two' => 2));
         $expected->setContent(1);
 
@@ -125,10 +127,10 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testCreateContextWithId()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent(array('one' => 1, 'two' => 2));
 
-        $expected = new Muentschi_Context('foo', 'one');
+        $expected = new Context('foo', 'one');
         $expected->setContent('main', array('one' => 1, 'two' => 2));
         $expected->setContent(1);
 
@@ -138,7 +140,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testContetOfSubContext()
     {
-        $context = new Muentschi_Context('foo');
+        $context = new Context('foo');
         $context->setContent(array('one' => '1', 'two' => 2));
 
         $subContext = $context->createContext('one');
@@ -149,7 +151,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testIdSetter()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->id('myId');
 
         $this->assertEquals('myId', $context->id());
@@ -157,14 +159,14 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testIdConstructor()
     {
-        $context = new Muentschi_Context('foo', 'bar');
+        $context = new Context('foo', 'bar');
 
         $this->assertEquals('bar', $context->id());
     }
 
     public function testEachContextSeperatly()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('contexts', 'sub');
         $context->select('sub')->add('content', 'general');
 
@@ -178,7 +180,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
     }
     public function testEachContextHasProperIds()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('contexts', 'sub');
         $context->select('sub')->add('content', array('id' => true));
 
@@ -192,7 +194,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testSubContextHasSameData()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->setContent('foo');
 
         $sub = $context->createContext('sub');
@@ -203,7 +205,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testSelectorIncludesContent()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->add('context', 'sub');
         $context->select('sub')->setContent('foo', 'bar')->add('content', '{foo}');
 
@@ -215,7 +217,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testTag()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->addTag('tag');
         $context->addTag('bar');
 
@@ -226,7 +228,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testRemoveTag()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->addTag('tag');
 
         $this->assertTrue($context->hasTag('tag'));
@@ -236,7 +238,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testTagInheritance()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
         $context->addTag('tag');
 
         $sub = $context->createContext('sub');
@@ -245,7 +247,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testSelectorSetsTag()
     {
-        $context = new Muentschi_Context('foo');
+        $context = new Context('foo');
         $context->select('foo')->addTag('bar')->add('content', array('tags' => true));
 
         $expected = 'bar';
@@ -257,14 +259,14 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
     public function testGetContentInformation()
     {
-        $context = new Muentschi_Context('foo', 'bar');
+        $context = new Context('foo', 'bar');
         $this->assertEquals('foo', $context->getContent('#name'));
         $this->assertEquals('bar', $context->getContent('#id'));
     }
 
     public function testCompareSelectors()
     {
-        $context = new Muentschi_Context();
+        $context = new Context();
 
         $actual = $context->compareSelector('one', 'two');
         $this->assertEquals(0, $actual);
@@ -283,7 +285,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
     {
     	$expected = array('one' => 1, 'one.two' => 2, 'one:three' => 3);
     	$selectors = array('one.two' => 2, 'one:three' => 3, 'one' => 1);
-    	$context = new Muentschi_Context();
+    	$context = new Context();
     	uksort($selectors, array($context, 'compareSelector'));
     	
     	$this->assertEquals($expected, $selectors);
@@ -291,7 +293,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 
 	public function testComputedTags()	
 	{
-		$context = new Muentschi_Context('name');
+		$context = new Context('name');
 		
 		$context->addComputedTag('first');
 		$this->assertTrue($context->applies('name:first'));
@@ -299,7 +301,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 	
 	public function testEmptySubContent()
 	{
-	   $context = new Muentschi_Context('name');
+	   $context = new Context('name');
 	   $context->setContent(array('empty' => array()));
 	   $subContext = $context->createContext('sub', 'empty');
 	   
@@ -308,7 +310,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 	
 	public function testSettingEmptyContentIfParamMatchesName()
 	{
-	   $context = new Muentschi_Context('test');
+	   $context = new Context('test');
 	   $content = array();
 	   
 	   $context->setContent('test', $content);
@@ -319,7 +321,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 	
 	public function testIds()
 	{
-		$context = new Muentschi_Context();
+		$context = new Context();
 		$context->ids('sub', 'one,two');
 		$this->assertEquals('one,two', $context->ids('sub'));
 	}
@@ -327,7 +329,7 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
 	public function testLog()
 	{
         
-		$context = new Muentschi_Context('dialog');
+		$context = new Context('dialog');
         $context->add('div', array('class' => 'dialog'));
         $context->add('context', 'title');
         $context->add('context', 'body');
@@ -340,10 +342,10 @@ class Muentschi_ContextTest extends PHPUnit_Framework_TestCase
         $body->add('content');
 
         $content = array('title' => 'My title', 'body' => 'My first contextual view');
-        Muentschi_Context::clearLog();
+        Context::clearLog();
         $context->render($content);
         
-        $actual = implode("\n", Muentschi_Context::getLog());
+        $actual = implode("\n", Context::getLog());
         
         $expected = <<<END
 [Render] Rendering dialog#dialog

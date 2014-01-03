@@ -1,9 +1,14 @@
 <?php
+
+namespace Muentschi\Decorator;
+
+use Muentschi\Decorator;
+
 /**
  * Represents the actual content
  * @author Urban Etter
  */
-class Muentschi_Decorator_Content extends Muentschi_Decorator
+class Content extends Decorator
 {
     /**
      * @var string The default option

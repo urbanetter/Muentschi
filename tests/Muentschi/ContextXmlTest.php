@@ -1,10 +1,13 @@
 <?php
-class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
+
+namespace Muentschi;
+
+class ContextXmlTest extends \PHPUnit_Framework_TestCase
 {
 	
 	public function testSimple()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/simple.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simple.xml');
 
         $context->setContent('hello world');
 
@@ -16,7 +19,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
 
     public function testDialog()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/dialog.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/dialog.xml');
     	
         $content = array('title' => 'My title', 'body' => 'My first contextual view');
         $actual = $context->render($content);
@@ -27,7 +30,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
 
     public function testSimpleTable()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
     	
         $data = array(
             array('name' => 'Blop', 'email' => 'blop@nothing.ch'),
@@ -44,7 +47,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
 
     public function testTableWithActionCol()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithActionCol.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithActionCol.xml');
     	
         $data = array(
             array('id' => 23, 'name' => 'Blop', 'email' => 'blop@nothing.ch'),
@@ -61,7 +64,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
 
     public function testTableWithHeaderRow()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithHeader.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithHeader.xml');
     	
         $context->ids('column', 'name,email');
         $context->select('column#name')->setContent('title', 'Name');
@@ -82,7 +85,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
 
     public function testTableHilightRow()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
 
         $context->ids('column', 'name,email');
         $context->select('row[id=17]')->add('tr', array('class' => 'hilight'));
@@ -102,7 +105,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
 
     public function testTableWithSortedColumn()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
 
         $context->ids('column', 'name,email');
     	$context->select('column#name')->add('td', array('class' => 'sorted'));
@@ -123,7 +126,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
 
     public function testTableWithSortableColumn()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithHeader.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithHeader.xml');
 
         $context->ids('column', 'name,email');
     	
@@ -148,7 +151,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
     
     public function testEmptyTable()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
 
         $context->select('table:empty')->insteadOf('row')->add('tr')->add('td')->add('text', 'No content!');
 
@@ -165,7 +168,7 @@ class Muentschi_ContextXmlTest extends PHPUnit_Framework_TestCase
     
     public function testEmptyColumn()
     {
-        $context = Muentschi_Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
 
         $context->ids('column', 'name,email');
         $context->select('column:empty')->insteadOf('content')->add('text', 'Empty column!');
