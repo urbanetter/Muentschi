@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/urbanetter/Muentschi.png?branch=master)](https://travis-ci.org/urbanetter/Muentschi)
+
 What
 ====
 
