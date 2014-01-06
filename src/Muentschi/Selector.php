@@ -64,6 +64,19 @@ class Selector
         return $this;
     }
 
+    public function addMultiple($decorators)
+    {
+        foreach ($decorators as $value) {
+            if (is_array($value)) {
+                foreach ($value as $decorator => $options) {
+                    $this->add($decorator, $options);
+                }
+            } else {
+                $this->add($value);
+            }
+        }
+    }
+
     /**
      * Sets the content
      * @param $name

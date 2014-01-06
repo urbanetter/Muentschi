@@ -11,5 +11,8 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-0": {"Muentschi\\": "src/"}
+    },
+    "require": {
+        "symfony/yaml": "2.4.*"
     }
 }

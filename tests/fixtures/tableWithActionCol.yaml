@@ -1,0 +1,9 @@
+table: simpletable
+
+row:
+  - contexts:
+      name: column
+      ids: "name, action"
+
+"column#action":
+  - content: "id: {row.id}"

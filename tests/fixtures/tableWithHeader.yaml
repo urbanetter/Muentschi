@@ -1,0 +1,26 @@
+table:
+  - table
+  - context: header
+  - context: rows
+
+rows:
+  - tbody
+  - contexts: row
+
+row:
+  - tr
+  - contexts: column
+
+column:
+  - td
+  - content
+
+header:
+  - thead
+  - tr
+  - contexts: column
+
+"header column":
+  - th
+  - content:
+      format: "{title}"

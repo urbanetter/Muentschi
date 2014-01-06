@@ -3,6 +3,7 @@
 namespace Muentschi\Decorator;
 
 use Muentschi\Decorator;
+use Muentschi\Exception;
 
 /**
  * Represents a HTML tag
@@ -23,6 +24,11 @@ class HtmlTag extends Decorator
     public function render($output = '')
     {
         $tag = $this->getMandatoryOption('tag');
+        if (is_array($output)) {
+            $context = $this->context();
+            throw new Exception("Multiple data in HTML tag $tag in decorator " . $context->name() . ". (Use decorators instead of decorator in parent context)");
+        }
+
         $this->removeOption('tag');
         $placement = $this->getOption('placement', 'replace');
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace Muentschi;
+use Symfony\Component\Yaml\Parser;
 
 /**
  * Represents a context
@@ -552,4 +553,42 @@ class Context
     	
     	return $result;
     }
-}
+
+    static public function fromYaml($path, $debug = false)
+    {
+        if (!is_file($path)) {
+            throw new Exception('File ' . $path . ' not found');
+        }
+
+        $parser = new Parser();
+        $contexts = $parser->parse(file_get_contents($path));
+
+        reset($contexts);
+        $mainContextName = key($contexts);
+        $mainContextDecorators = array_shift($contexts);
+        if (is_array($mainContextDecorators)) {
+            $mainContext = new Context($mainContextName);
+            $mainSelector = $mainContext->select($mainContextName);
+            $mainSelector->addMultiple($mainContextDecorators);
+        } else {
+            $file = dirname($path) . '/' . $mainContextDecorators . '.yaml';
+            if (!is_file($file)) {
+                throw new Exception('Cannot extend file ' . $file);
+            }
+            $mainContext = self::fromYaml($file);
+        }
+
+        if ($debug) {
+            //var_dump($contexts);
+        }
+
+        foreach ($contexts as $selector => $decorators) {
+            $selector = $mainContext->select($selector);
+            $selector->addMultiple($decorators);
+        }
+
+        return $mainContext;
+
+    }
+
+ }

@@ -1,0 +1,15 @@
+dialog:
+  - div:
+      class: dialog
+  - context: title
+  - context: body
+
+title:
+  - div:
+      class: title
+  - content
+
+body:
+  - div:
+      class: body
+  - content
