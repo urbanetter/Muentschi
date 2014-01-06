@@ -1,7 +1,0 @@
-simpletable
-    <table>
-    contexts row
-        <tr>
-        contexts column
-            <td>
-            content

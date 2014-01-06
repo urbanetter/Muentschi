@@ -305,7 +305,7 @@ class Context
      * Decorate the main context
      * @param mixed $decorator the decorator as string or as object
      * @param array $options
-     * @return Muentschi_Context fluent interface
+     * @return Context fluent interface
      */
     public function add($decorator, $options = null)
     {
@@ -500,10 +500,11 @@ class Context
     	}
     	return $return;
     }
-    
+
     /**
      * Creates an instance with decorators specified in a XML file
      * @param string $path The path to the file
+     * @return Context
      * @throws Exception when the given file is not readable
      */
     static public function fromXML($path)

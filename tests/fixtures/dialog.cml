@@ -1,8 +1,0 @@
-context dialog
-    <div class="dialog">
-    context title
-        <div class="title">
-        content
-    context body
-        <div class="body">
-        content

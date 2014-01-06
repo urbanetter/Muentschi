@@ -209,6 +209,7 @@ class Decorator
      * Sets the context of this decorator
      *
      * @param Context $context
+     * @return $this|Context
      */
     public function context(Context $context = null)
     {
@@ -233,7 +234,7 @@ class Decorator
     }
 
     /**
-     * Handles "placement" of Decorator (prepeand/ appen)
+     * Handles "placement" of Decorator (prepend/ append)
      * @param string $original The original string
      * @param string $result The new string
      * @param string $placement Where to place the new string (append, prepend, wrap)
@@ -287,7 +288,7 @@ class Decorator
      */
     public function render($output = '')
     {
-        $msg = get_class($this) . ': render($output = "") function not implemeted';
+        $msg = get_class($this) . ': render($output = "") function not implemented';
         throw new Exception($msg);
     }
 

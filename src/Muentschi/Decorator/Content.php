@@ -15,10 +15,6 @@ class Content extends Decorator
      */
     protected $_defaultOption = 'format';
 
-    /**
-     * (non-PHPdoc)
-     * @see nonwww/Muentschi/Muentschi_Decorator#render()
-     */
     public function render($output = '')
     {
         $context = $this->context();
@@ -40,10 +36,6 @@ class Content extends Decorator
         return $this->handlePlacement($output, $result);
     }
 
-    /**
-     * (non-PHPdoc)
-     * @see nonwww/Muentschi/Muentschi_Decorator#getName()
-     */
     public function getName()
     {
         return $this->getOption('name', 'content');

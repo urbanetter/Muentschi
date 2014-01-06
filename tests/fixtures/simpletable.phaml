@@ -1,6 +1,0 @@
-table .withClass
-    :row*
-        tr
-        :col*
-            td
-            content

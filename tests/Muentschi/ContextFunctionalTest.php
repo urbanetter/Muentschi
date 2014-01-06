@@ -53,13 +53,13 @@ class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
         $context->select('column')->add('td')->add('content');
 
         $data = array(
-            array('name' => 'Blop', 'email' => 'blop@nothing.ch'),
-            array('name' => 'Spin', 'email' => 'spin@nothing.ch'),
+            array('name' => 'Peter', 'email' => 'peter@alps.ch'),
+            array('name' => 'Heidi', 'email' => 'heidi@alps.ch'),
         );
 
         $context->setContent($data);
 
-        $expected = '<table><tr><td>Blop</td><td>blop@nothing.ch</td></tr><tr><td>Spin</td><td>spin@nothing.ch</td></tr></table>';
+        $expected = '<table><tr><td>Peter</td><td>peter@alps.ch</td></tr><tr><td>Heidi</td><td>heidi@alps.ch</td></tr></table>';
         $actual = $context->render();
 
         $this->assertEquals($expected, $actual);
@@ -78,13 +78,13 @@ class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
         $context->select('column#action')->add('content', 'id: {row.id}');
 
         $data = array(
-            array('id' => 23, 'name' => 'Blop', 'email' => 'blop@nothing.ch'),
-            array('id' => 17, 'name' => 'Spin', 'email' => 'spin@nothing.ch'),
+            array('id' => 23, 'name' => 'Peter', 'email' => 'peter@alps.ch'),
+            array('id' => 17, 'name' => 'Heidi', 'email' => 'heidi@alps.ch'),
         );
 
         $context->setContent($data);
 
-        $expected = '<table><tr><td>Blop</td><td>id: 23</td></tr><tr><td>Spin</td><td>id: 17</td></tr></table>';
+        $expected = '<table><tr><td>Peter</td><td>id: 23</td></tr><tr><td>Heidi</td><td>id: 17</td></tr></table>';
         $actual = $context->render();
 
         $this->assertEquals($expected, $actual);
@@ -110,13 +110,13 @@ class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
         $context->select('column#email')->setContent('title', 'Email');
 
         $data = array(
-            array('id' => 23, 'name' => 'Blop', 'email' => 'blop@nothing.ch'),
-            array('id' => 17, 'name' => 'Spin', 'email' => 'spin@nothing.ch'),
+            array('id' => 23, 'name' => 'Peter', 'email' => 'peter@alps.ch'),
+            array('id' => 17, 'name' => 'Heidi', 'email' => 'heidi@alps.ch'),
         );
 
         $context->setContent($data);
 
-        $expected = '<table><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody><tr><td>Blop</td><td>blop@nothing.ch</td></tr><tr><td>Spin</td><td>spin@nothing.ch</td></tr></tbody></table>';
+        $expected = '<table><thead><tr><th>Name</th><th>Email</th></tr></thead><tbody><tr><td>Peter</td><td>peter@alps.ch</td></tr><tr><td>Heidi</td><td>heidi@alps.ch</td></tr></tbody></table>';
         $actual = $context->render();
 
         $this->assertEquals($expected, $actual);
@@ -134,13 +134,13 @@ class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
         $context->select('column')->add('td')->add('content');
 
         $data = array(
-            array('id' => 23, 'name' => 'Blop', 'email' => 'blop@nothing.ch'),
-            array('id' => 17, 'name' => 'Spin', 'email' => 'spin@nothing.ch'),
+            array('id' => 23, 'name' => 'Peter', 'email' => 'peter@alps.ch'),
+            array('id' => 17, 'name' => 'Heidi', 'email' => 'heidi@alps.ch'),
         );
 
         $context->setContent($data);
 
-        $expected = '<table><tr><td>Blop</td><td>blop@nothing.ch</td></tr><tr class="hilight"><td>Spin</td><td>spin@nothing.ch</td></tr></table>';
+        $expected = '<table><tr><td>Peter</td><td>peter@alps.ch</td></tr><tr class="hilight"><td>Heidi</td><td>heidi@alps.ch</td></tr></table>';
         $actual = $context->render();
 
         $this->assertEquals($expected, $actual);
@@ -159,13 +159,13 @@ class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
 
 
         $data = array(
-            array('id' => 23, 'name' => 'Blop', 'email' => 'blop@nothing.ch'),
-            array('id' => 17, 'name' => 'Spin', 'email' => 'spin@nothing.ch'),
+            array('id' => 23, 'name' => 'Peter', 'email' => 'peter@alps.ch'),
+            array('id' => 17, 'name' => 'Heidi', 'email' => 'heidi@alps.ch'),
         );
 
         $context->setContent($data);
 
-        $expected = '<table><tr><td class="sorted">Blop</td><td>blop@nothing.ch</td></tr><tr><td class="sorted">Spin</td><td>spin@nothing.ch</td></tr></table>';
+        $expected = '<table><tr><td class="sorted">Peter</td><td>peter@alps.ch</td></tr><tr><td class="sorted">Heidi</td><td>heidi@alps.ch</td></tr></table>';
         $actual = $context->render();
 
         $this->assertEquals($expected, $actual);
@@ -193,13 +193,13 @@ class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
 
 
         $data = array(
-            array('id' => 23, 'name' => 'Blop', 'email' => 'blop@nothing.ch'),
-            array('id' => 17, 'name' => 'Spin', 'email' => 'spin@nothing.ch'),
+            array('id' => 23, 'name' => 'Peter', 'email' => 'peter@alps.ch'),
+            array('id' => 17, 'name' => 'Heidi', 'email' => 'heidi@alps.ch'),
         );
 
         $context->setContent($data);
 
-        $expected = '<table><thead><tr><th><a href="?sort=name">Name</a></th><th>E-Mail</th></tr></thead><tbody><tr><td>Blop</td><td>blop@nothing.ch</td></tr><tr><td>Spin</td><td>spin@nothing.ch</td></tr></tbody></table>';
+        $expected = '<table><thead><tr><th><a href="?sort=name">Name</a></th><th>E-Mail</th></tr></thead><tbody><tr><td>Peter</td><td>peter@alps.ch</td></tr><tr><td>Heidi</td><td>heidi@alps.ch</td></tr></tbody></table>';
         $actual = $context->render();
 
         $this->assertEquals($expected, $actual);
@@ -240,13 +240,13 @@ class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
         $context->select('column:empty')->insteadOf('content')->add('text', 'Empty column!');
 
         $data = array(
-            array('name' => 'Blop', 'email' => 'blop@nothing.ch'),
-            array('name' => 'Spin', 'email' => ''),
+            array('name' => 'Peter', 'email' => 'peter@alps.ch'),
+            array('name' => 'Heidi', 'email' => ''),
         );
 
         $context->setContent($data);
 
-        $expected = '<table><tr><td>Blop</td><td>blop@nothing.ch</td></tr><tr><td>Spin</td><td>Empty column!</td></tr></table>';
+        $expected = '<table><tr><td>Peter</td><td>peter@alps.ch</td></tr><tr><td>Heidi</td><td>Empty column!</td></tr></table>';
         $actual = $context->render();
 
         $this->assertEquals($expected, $actual);
@@ -265,13 +265,13 @@ class ContextFunctionalTest extends \PHPUnit_Framework_TestCase
         $context->ids('column', 'name,email');
 
         $data = array(
-            array('id' => 23, 'name' => 'Blop', 'email' => 'blop@nothing.ch'),
-            array('id' => 17, 'name' => 'Spin', 'email' => 'spin@nothing.ch'),
+            array('id' => 23, 'name' => 'Peter', 'email' => 'peter@alps.ch'),
+            array('id' => 17, 'name' => 'Heidi', 'email' => 'heidi@alps.ch'),
         );
 
         $context->setContent($data);
 
-        $expected = '<table><tr><td>Blop</td><td>blop@nothing.ch</td></tr><tr><td>Spin</td><td>spin@nothing.ch</td></tr></table>';
+        $expected = '<table><tr><td>Peter</td><td>peter@alps.ch</td></tr><tr><td>Heidi</td><td>heidi@alps.ch</td></tr></table>';
         $actual = $context->render();
 
         $this->assertEquals($expected, $actual);
