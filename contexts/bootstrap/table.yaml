@@ -1,0 +1,51 @@
+table:
+  - table:
+      class: table
+  - context: header
+  - context: body
+
+body:
+  - tbody
+  - contexts: row
+
+row:
+  - tr
+  - contexts: column
+
+column:
+  - td
+  - content
+
+header:
+  - thead
+  - th
+  - contexts: column
+
+"header coulumn":
+  - content: "{title}"
+
+table.striped
+  - table:
+      class: "table-striped"
+
+table.hover
+  - table:
+      class: "table-hover"
+
+table.condensed
+  - table:
+      class: "table-condensed"
+
+row.success
+  - tr:
+      class: success
+
+row.warning
+  - tr:
+      class: warning
+
+row.danger
+  - tr:
+      class: danger
+
+

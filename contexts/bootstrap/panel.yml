@@ -1,0 +1,18 @@
+panel:
+  - div
+      class: panel panel-default
+  - context: title
+  - context: body
+
+title:
+  - div
+      class: panel-heading
+  - h3
+      class: panel-title
+  - content
+
+body:
+  - div
+      class: panel-body
+  - content
+
