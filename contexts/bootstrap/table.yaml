@@ -18,10 +18,11 @@ column:
 
 header:
   - thead
-  - th
+  - tr
   - contexts: column
 
 "header coulumn":
+  - th
   - content: "{title}"
 
 table.striped

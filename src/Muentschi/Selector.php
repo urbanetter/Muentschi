@@ -189,7 +189,7 @@ class Selector
             } else {
                 // because the used decorator can be changed,
                 // we need to clone the original to keep it in the original state
-                $decorators[$name] = clone( $decorator );
+                $decorators[$name] = clone($decorator);
             }
         }
 
