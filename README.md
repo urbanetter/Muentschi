@@ -2,43 +2,70 @@
 
 Muentschi is a mini language for creating HTML according to an arbitrary data structure.
 
-This is table.yaml
+To get a panel with [Bootstrap](http://getbootstrap.com/components/#panels) specify the contexts:
 
-    table:
-      - table
-      - contexts: rows
+    panel:
+      - context: heading
+      - context: body
 
-    rows:
-      - tr
-      - contexts: columns
+    heading:
+      - div:
+          class: panel panel-standard
+      - content
 
-    columns:
-      - td
+    body:
+      - div:
+          class: panel-body
       - content
 
 And then in your code:
 
     use Muentschi\Context;
 
-    $context = Context::fromYaml('table.yaml');
+    $context = Context::fromYaml('contexts/bootstrap/panel.yaml');
 
     $data = array(
-        array('row 1 col 1', 'row 1 col 2'),
-        array('row 2 col 1', 'row 2 col 2')
+        'title' => 'Panel title'
+        'body' => 'Panel content'
     );
 
     echo $context->render($data);
 
-    // <table>
-    // <tr>
-    //   <td>row 1 col 1</td>
-    //   <td>row 1 col 2</td>
-    // </tr>
-    // <tr>
-    //   <td>row 2 col 1</td>
-    //   <td>row 2 col 2</td>
-    // </tr>
-    // </table>
+    // <div class="panel panel-default">
+    //   <div class="panel-heading">
+    //     <h3 class="panel-title">Panel title</h3>
+    //   </div>
+    //   <div class="panel-body">
+    //     Panel content
+    //   </div>
+    // </div>
+
+A more complete example completely in PHP to get you started:
+
+    // a table
+    $table = new Muentschi('table');
+    $table->add('htmlTag', 'table'); // surrounding html tag <table>
+    $table->add('contexts', 'row');  // a table consists of rows
+    $table->select('row')->add('htmlTag', 'tr'); // <tr> surround rows
+    $table->select('row')->add('contexts', 'column'); // rows consist of columns
+    $table->select('column')->add('htmlTag', 'td'); // columns are surrounded by <td>
+    $table->select('column')->add('content'); // finally the content is displayed
+
+    // add class 'alt' to every second <tr> tag in the table
+    $table->select('row:even')->add('htmlTag', array('tag' => 'tr', 'class' => 'alt'));
+
+    // replace the table with a div and a message if the table is empty
+    $table->select('table:empty')->replace()->add('htmlTag', 'div')->add('text', 'No rows to display!');
+
+    // setting the content and render the context
+    $content = array(1 => array('foo', 'bar'), 2 => array('baz', 'bat'));
+    $table->setContent($content);
+    echo $table->render();
+
+Its also possible to specify specific contexts in PHP:
+
+    $table->select('column:empty')->insteadOf('content')->add('text', 'This is an empty column!');
+    $table->select('row:even')->add('tr', array('class' => 'even_row'));
 
 Installation
 ============

@@ -554,7 +554,13 @@ class Context
     	return $result;
     }
 
-    static public function fromYaml($path, $debug = false)
+    /**
+     * Creates an instance with decorators specified in a YAML file
+     * @param string $path The path to the file
+     * @return Context
+     * @throws Exception when the given file is not readable
+     */
+    static public function fromYaml($path)
     {
         if (!is_file($path)) {
             throw new Exception('File ' . $path . ' not found');
@@ -576,10 +582,6 @@ class Context
                 throw new Exception('Cannot extend file ' . $file);
             }
             $mainContext = self::fromYaml($file);
-        }
-
-        if ($debug) {
-            //var_dump($contexts);
         }
 
         foreach ($contexts as $selector => $decorators) {
