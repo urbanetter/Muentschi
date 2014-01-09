@@ -42,8 +42,10 @@ And then in your code:
 
 A more complete example completely in PHP to get you started:
 
+    use Muentschi\Context;
+
     // a table
-    $table = new Muentschi('table');
+    $table = new Context('table');
     $table->add('htmlTag', 'table'); // surrounding html tag <table>
     $table->add('contexts', 'row');  // a table consists of rows
     $table->select('row')->add('htmlTag', 'tr'); // <tr> surround rows
@@ -61,11 +63,6 @@ A more complete example completely in PHP to get you started:
     $content = array(1 => array('foo', 'bar'), 2 => array('baz', 'bat'));
     $table->setContent($content);
     echo $table->render();
-
-Its also possible to specify specific contexts in PHP:
-
-    $table->select('column:empty')->insteadOf('content')->add('text', 'This is an empty column!');
-    $table->select('row:even')->add('tr', array('class' => 'even_row'));
 
 Installation
 ============
