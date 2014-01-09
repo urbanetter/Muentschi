@@ -29,7 +29,7 @@ And then in your code:
     $context = Context::fromYaml('contexts/bootstrap/panel.yaml');
 
     $data = array(
-        'title' => 'Panel title'
+        'heading' => 'Panel title'
         'body' => 'Panel content'
     );
 
