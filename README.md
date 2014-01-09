@@ -5,16 +5,20 @@ Muentschi is a mini language for creating HTML according to an arbitrary data st
 To get a panel with [Bootstrap](http://getbootstrap.com/components/#panels) specify the contexts:
 
     panel:
+      - div
+          class: panel panel-default
       - context: heading
       - context: body
 
     heading:
-      - div:
-          class: panel panel-standard
+      - div
+          class: panel-heading
+      - h3
+          class: panel-title
       - content
 
     body:
-      - div:
+      - div
           class: panel-body
       - content
 
