@@ -1,11 +1,13 @@
 {
     "name": "urbanetter/muentschi",
     "description": "A mini language for decorating array structures with HTML tags",
+    "keywords": ["mini language", "HTML", "template"],
     "license": "MIT",
     "authors": [
         {
             "name": "Urban Etter",
-            "email": "uetter@gmail.com"
+            "email": "uetter@gmail.com",
+            "homepage": "http://www.urbanetter.ch"
         }
     ],
     "minimum-stability": "dev",
@@ -13,6 +15,7 @@
         "psr-0": {"Muentschi\\": "src/"}
     },
     "require": {
+        "php": ">=5.3.0",
         "symfony/yaml": "2.4.*"
     }
 }

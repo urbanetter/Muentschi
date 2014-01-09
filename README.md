@@ -1,50 +1,66 @@
 [![Build Status](https://travis-ci.org/urbanetter/Muentschi.png?branch=master)](https://travis-ci.org/urbanetter/Muentschi)
 
-What
-====
+Muentschi is a mini language for creating HTML according to an arbitrary data structure.
 
-Muentschi offers a conextual approach for displaying your view. Instead of just defining
-a bunch of markup tags, it allows you to treat the objects on your view semantically and define how they look.
+This is table.yaml
 
-As examples, Muentschi allows you to write
+    table:
+      - table
+      - contexts: rows
 
-    $table->select('column:empty')->insteadOf('content')->add('text', 'This is an empty column!');
-    $table->select('row:even')->add('tr', array('class' => 'even_row'));
+    rows:
+      - tr
+      - contexts: columns
 
-instead of nested if statements in your view template.
+    columns:
+      - td
+      - content
 
-A more complete example to get you started:
+And then in your code:
 
-    // a table
-    $table = new Muentschi('table');
-    $table->add('htmlTag', 'table'); // surrounding html tag <table>
-    $table->add('contexts', 'row');  // a table consists of rows
-    $table->select('row')->add('htmlTag', 'tr'); // <tr> surround rows
-    $table->select('row')->add('contexts', 'column'); // rows consist of columns
-    $table->select('column')->add('htmlTag', 'td'); // columns are surrounded by <td>
-    $table->select('column')->add('content'); // finally the content is displayed
-    
-    // add class 'alt' to every second <tr> tag in the table
-    $table->select('row:even')->add('htmlTag', array('tag' => 'tr', 'class' => 'alt'));
-    
-    // replace the table with a div and a message if the table is empty
-    $table->select('table:empty')->replace()->add('htmlTag', 'div')->add('text', 'No rows to display!');
-    
-    // setting the content and render the context
-    $content = array(1 => array('foo', 'bar'), 2 => array('baz', 'bat'));
-    $table->setContent($content);
-    echo $table->render();
-    $this->view->table = $table; // In a controller in Zend Framework
+    use Muentschi\Context;
 
-Why
-===
-Everything is an object today. MVC learned us to treat data as models. Often a model is mapped to one or more database tables, there are Active Record implementations which allow to treat a record of a table as object.
-The only place we do not treat our data as objects is in the output, the view. We still write lots of HTML tags, often folded into different if statements
-because we have to for example display the sorted column in a table differently.
+    $context = Context::fromYaml('table.yaml');
 
-Muentschi allows you to treat your data as it is. In its context. Instead of checking for iteration number you can specify the HTML class of the first row. And all this as extension to your chosen template engine
-(or PHP or whatever you use for your view). Muentschi integrates well with any template engines. There are integrations for Zend Framework
-and Smarty.
+    $data = array(
+        array('row 1 col 1', 'row 1 col 2'),
+        array('row 2 col 1', 'row 2 col 2')
+    );
+
+    echo $context->render($data);
+
+    // <table>
+    // <tr>
+    //   <td>row 1 col 1</td>
+    //   <td>row 1 col 2</td>
+    // </tr>
+    // <tr>
+    //   <td>row 2 col 1</td>
+    //   <td>row 2 col 2</td>
+    // </tr>
+    // </table>
+
+Installation
+============
+
+To get the source of this library simply use git:
+
+    git clone git://github.com/urbanetter/Muentschi.git
+    cd Muentschi
+
+To add this library to an existing project it is recommended to use the composer installer.
+Add the following to your projects ``composer.json``:
+
+    "require": {
+        ...
+        "urbanetter/muentschi": "dev-master"
+    },
+
+Get the composer installer if its not yet installed on your system and run ``update``
+
+    # install dependencies
+    curl -s http://getcomposer.org/installer | php
+    php composer.phar update urbanetter/muentschi
 
 Selectors
 =========
@@ -164,3 +180,5 @@ To specify a specific behaviour, call the according function on the selector:
     $context->select('column:empty')->insteadOf('content')->add('text', 'This is an empty column!');
 
 For before, after, insteadOf and remove a name of a decorator is required. The name of the decorator is for HtmlTags the tag, for contexts the context name and for content 'content'. See the function getName() in the decorator class.
+
+(Install instructions are from https://github.com/liip/LiipMonitor)
