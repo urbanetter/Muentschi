@@ -2,14 +2,12 @@
 
 namespace Muentschi;
 
-use Symfony\Component\Yaml\Parser;
-
 class ContextYamlTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testSimple()
     {
-        $context = Context::fromYaml(dirname(__FILE__) . '/../fixtures/simple.yaml');
+        $context = ContextFactory::fromYaml(dirname(__FILE__) . '/../fixtures/simple.yaml');
 
         $context->setContent('hello world');
 
@@ -21,7 +19,7 @@ class ContextYamlTest extends \PHPUnit_Framework_TestCase
 
     public function testDialog()
     {
-        $context = Context::fromYaml(dirname(__FILE__) . '/../fixtures/dialog.yaml');
+        $context = ContextFactory::fromYaml(dirname(__FILE__) . '/../fixtures/dialog.yaml');
 
         $content = array('title' => 'My title', 'body' => 'My first contextual view');
         $actual = $context->render($content);
@@ -32,7 +30,7 @@ class ContextYamlTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleTable()
     {
-        $context = Context::fromYaml(dirname(__FILE__) . '/../fixtures/simpletable.yaml');
+        $context = ContextFactory::fromYaml(dirname(__FILE__) . '/../fixtures/simpletable.yaml');
 
         $data = array(
             array('name' => 'Peter', 'email' => 'peter@alps.ch'),
@@ -49,7 +47,7 @@ class ContextYamlTest extends \PHPUnit_Framework_TestCase
 
     public function testTableWithActionCol()
     {
-        $context = Context::fromYaml(dirname(__FILE__) . '/../fixtures/tableWithActionCol.yaml');
+        $context = ContextFactory::fromYaml(dirname(__FILE__) . '/../fixtures/tableWithActionCol.yaml');
 
         $data = array(
             array('id' => 23, 'name' => 'Peter', 'email' => 'peter@alps.ch'),
@@ -66,7 +64,7 @@ class ContextYamlTest extends \PHPUnit_Framework_TestCase
 
     public function testTableWithHeaderRow()
     {
-        $context = Context::fromYaml(dirname(__FILE__) . '/../fixtures/tableWithHeader.yaml', true);
+        $context = ContextFactory::fromYaml(dirname(__FILE__) . '/../fixtures/tableWithHeader.yaml', true);
 
         $context->ids('column', 'name,email');
         $context->select('column#name')->setContent('title', 'Name');
@@ -87,7 +85,7 @@ class ContextYamlTest extends \PHPUnit_Framework_TestCase
 
     public function testTableHilightRow()
     {
-        $context = Context::fromYaml(dirname(__FILE__) . '/../fixtures/simpletable.yaml');
+        $context = ContextFactory::fromYaml(dirname(__FILE__) . '/../fixtures/simpletable.yaml');
 
         $context->ids('column', 'name,email');
         $context->select('row[id=17]')->add('tr', array('class' => 'hilight'));

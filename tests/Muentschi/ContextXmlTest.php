@@ -7,7 +7,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
 	
 	public function testSimple()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simple.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/simple.xml');
 
         $context->setContent('hello world');
 
@@ -19,7 +19,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
 
     public function testDialog()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/dialog.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/dialog.xml');
     	
         $content = array('title' => 'My title', 'body' => 'My first contextual view');
         $actual = $context->render($content);
@@ -30,7 +30,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleTable()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
     	
         $data = array(
             array('name' => 'Peter', 'email' => 'peter@alps.ch'),
@@ -47,7 +47,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
 
     public function testTableWithActionCol()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithActionCol.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/tableWithActionCol.xml');
     	
         $data = array(
             array('id' => 23, 'name' => 'Peter', 'email' => 'peter@alps.ch'),
@@ -64,7 +64,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
 
     public function testTableWithHeaderRow()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithHeader.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/tableWithHeader.xml');
     	
         $context->ids('column', 'name,email');
         $context->select('column#name')->setContent('title', 'Name');
@@ -85,7 +85,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
 
     public function testTableHilightRow()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
 
         $context->ids('column', 'name,email');
         $context->select('row[id=17]')->add('tr', array('class' => 'hilight'));
@@ -105,7 +105,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
 
     public function testTableWithSortedColumn()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
 
         $context->ids('column', 'name,email');
     	$context->select('column#name')->add('td', array('class' => 'sorted'));
@@ -126,7 +126,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
 
     public function testTableWithSortableColumn()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/tableWithHeader.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/tableWithHeader.xml');
 
         $context->ids('column', 'name,email');
     	
@@ -151,7 +151,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
     
     public function testEmptyTable()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
 
         $context->select('table:empty')->insteadOf('row')->add('tr')->add('td')->add('text', 'No content!');
 
@@ -168,7 +168,7 @@ class ContextXmlTest extends \PHPUnit_Framework_TestCase
     
     public function testEmptyColumn()
     {
-        $context = Context::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
+        $context = ContextFactory::fromXML(dirname(__FILE__) . '/../fixtures/simpletable.xml');
 
         $context->ids('column', 'name,email');
         $context->select('column:empty')->insteadOf('content')->add('text', 'Empty column!');
