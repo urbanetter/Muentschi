@@ -45,7 +45,7 @@ class Context
     protected $_content;
     
     /**
-     * Ids which will be used for creating sub context. Array with context name as key, comma seperated ids as value
+     * Ids which will be used for creating sub context. Array with context name as key, comma separated ids as value
      * @var array
      */
     protected $_ids;
