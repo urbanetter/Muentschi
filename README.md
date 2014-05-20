@@ -24,9 +24,9 @@ To get a panel with [Bootstrap](http://getbootstrap.com/components/#panels) spec
 
 And then in your code:
 
-    use Muentschi\Context;
+    use Muentschi\ContextFactory;
 
-    $context = Context::fromYaml('contexts/bootstrap/panel.yaml');
+    $context = ContextFactory::fromYaml('contexts/bootstrap/panel.yaml');
 
     $data = array(
         'heading' => 'Panel title'
