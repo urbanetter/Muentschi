@@ -141,12 +141,12 @@ When rendering this with $context->render(), first the text 'Hello world!' is re
 
 The second parameter of the function add() could also be an array of options. If a string is given, this is set as main option of the decorator.
 The placement option is available for all decorators and allows to specify where to put the decorators output. Use the value 'prepend' to prepend the output,
-'append' to eppend it. Writing $context->add('htmlTag', array('tag' => 'h1', 'placement' => 'append'); would result in &lt;h1&gt;&lt;/h1&gt;Hello world!
+'append' to append it. Writing $context->add('htmlTag', array('tag' => 'h1', 'placement' => 'append'); would result in &lt;h1&gt;&lt;/h1&gt;Hello world!
 
-The second general available option is 'separator'. It allows to specify a spearator which  is inserted between the decorator output and the given output.
+The second general available option is 'separator'. It allows to specify a separator which  is inserted between the decorator output and the given output.
 $context->add('htmlTag', array('tag' => 'h1', 'separator' => ' == '); would result in &lt;h1&gt; == Hello world! == &lt;/h1&gt;.
 
-Every option in the decorators allows to access the content of the context by placeholders. The placeholders are sourrounded by curly brackets.
+Every option in the decorators allows to access the content of the context by placeholders. The placeholders are surrounded by curly brackets.
 
     $context = new Muentschi('text);
     $context->add('text', 'Hello {text}!');
@@ -202,7 +202,7 @@ The merging behaviour is just the default behaviour. On every selector it is pos
 * before: The decorators of this selector get inserted before a specific decorator
 * after: The decorators of this selector get inserted after a specific decorator
 * insteadOf: The decorators get inserted instead of another decorator
-* remove: A specifc decorator gets removed.
+* remove: A specific decorator gets removed.
 
 To specify a specific behaviour, call the according function on the selector:
     $context->select('column:empty')->insteadOf('content')->add('text', 'This is an empty column!');
